@@ -10,6 +10,7 @@
     function mobileInterceptorConfig($httpProvider) {
 
         $httpProvider.interceptors.push('mobileInterceptorCore');
+
     }
 
 })();
