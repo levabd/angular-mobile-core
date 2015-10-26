@@ -6,8 +6,8 @@
 
     /////////////////////////////////////
 
-    mobileInterceptorCore.$inject=['$q', '$mobileConfig', 'localStorageService', '$toastService'];
-    function mobileInterceptorCore($q, $mobileConfig, localStorageService, $toastService) {
+    mobileInterceptorCore.$inject=['$q', '$mobileConfig', 'localStorageService', '$toastService', '$injector', '$console'];
+    function mobileInterceptorCore($q, $mobileConfig, localStorageService, $toastService, $injector, $console) {
 
         function bothTypeResponse(response){
 
@@ -15,10 +15,46 @@
 
                 if(response.data){
 
-                    if (response.data.message) {
+                    var errorCode = '';
+                    var $userService = $injector.get('$userService');
+                    var no_warnings = false;
+
+                    if (response.config){
+                        if (response.config.options){
+                            if (response.config.options.log){
+                                if (response.config.url.indexOf("http") != -1 || response.config.url.indexOf("json") != -1){
+                                    $console.info(response, response.config.url);
+                                }
+                            }
+                            if (response.config.options.no_warnings) {
+                                if (response.config.options.no_warnings.success) {
+                                    no_warnings = true;
+                                }
+                            }
+                        }
+
+                    }
+
+
+                    if (response.data.message && no_warnings == false) {
 
                         $toastService.info(response.data.message.text);
 
+                    }
+
+
+                    if (response.data.code) {
+                        errorCode = response.data.code;
+
+                        if (errorCode == 54) {
+                            $userService.forgetUser({target: 'self'});
+                        }
+                    }
+
+                    if (response.data.status){
+                        if (response.data.status == "duplicated") {
+                            $userService.forgetUser({target: 'self'});
+                        }
                     }
 
                     if (response.data.token){

@@ -17,7 +17,7 @@
 
         $mobileConfig.setConfig({
             headers:{
-                image_size: ($window.innerWidth * pixelRatio) >= 600 ? 'high' : ($window.innerWidth * pixelRatio) >= 340 ? 'medium' : 'low'
+                imageSize: ($window.innerWidth * pixelRatio) >= 600 ? 'high' : ($window.innerWidth * pixelRatio) >= 340 ? 'medium' : 'low'
             }
         });
 

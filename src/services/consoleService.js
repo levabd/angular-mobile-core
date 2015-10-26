@@ -9,6 +9,8 @@
     function logger() {
         var controllers = [];
 
+        var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+
         var service = {
             instance: instance,
             clearInstance: clearInstance,
@@ -67,7 +69,7 @@
             var date = new Date();
             var time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ':' + date.getMilliseconds();
 
-            if (window.preConfiguration.chromium)
+            if (is_chrome)
                 log((type=='error' ? '[c="color: red"]' : '[c="color: black"]') + type.toUpperCase() + '[c]: [c="color: #5B5FF1"]'+ time +'[c] - [c="color: #379E1C"]' + service.instance() + '[c]::[c="color: #DA730F"]' + method  +'[c]( \n\t', message, '\n );');
             else{
                 switch(type){
