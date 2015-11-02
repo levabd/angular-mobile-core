@@ -69,8 +69,10 @@
             var date = new Date();
             var time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ':' + date.getMilliseconds();
 
-            if (is_chrome)
+            if (is_chrome){
                 log((type=='error' ? '[c="color: red"]' : '[c="color: black"]') + type.toUpperCase() + '[c]: [c="color: #5B5FF1"]'+ time +'[c] - [c="color: #379E1C"]' + service.instance() + '[c]::[c="color: #DA730F"]' + method  +'[c]( \n\t', message, '\n );');
+                console.onlyLog(type.toUpperCase() + ': ' + time + ' - ' + service.instance() + '::' + method + '( ' + JSON.stringify(message, null, '\t').replace(/\n/g,"\n\t") +  '\n );');
+            }
             else{
                 switch(type){
                     case 'error':
