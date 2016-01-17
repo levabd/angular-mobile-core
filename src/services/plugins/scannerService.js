@@ -11,8 +11,20 @@
     function $scanner($langService, $timeout) {
 
         var methods = {
-            scan: scan
+            scan: scan,
+            getLastScanParams: getLastScanParams
         };
+
+        var lastScannerParams = null;
+
+
+        /**
+         * @desc Возвращает параметры сканеры с последнего запуска
+         * @return obj
+         */
+        function getLastScanParams(){
+            return lastScannerParams
+        }
 
         /**
          * @desc Запускает сканер
@@ -21,25 +33,33 @@
          */
         function scan(params) {
             if (!params) {
-                params = {
-                    type: 'alcohol'
-                };
+                params = {};
             }
-            else if (!params.type) {
-                params.type = 'alcohol';
+
+            if (params.repeat){
+                params = lastScannerParams;
             }
+
+            var defaultParams = {
+                lang:'en',
+                types: [],
+                text: '\n',
+                hasManual: false
+            };
+            params = _.extend(defaultParams, params );
+
+            lastScannerParams = params;
 
             loadModal.show();
-
-            window.plugins.insomnia.keepAwake();
-
+            $timeout(function(){
+                loadModal.hide();
+            }, 1000);
             $timeout(function () {
-
+                params = _.extend(params, {
+                    lang: $langService.getCurrentLanguage()
+                });
                 scanner.startScanning(
-                    MWBSInitSpace.init({
-                        lang: $langService.getCurrentLanguage(),
-                        type: params.type
-                    }),
+                    MWBSInitSpace.init(params),
                     MWBSInitSpace.callback({
                         manual: function () {
                             if (typeof params.manual === 'function') {

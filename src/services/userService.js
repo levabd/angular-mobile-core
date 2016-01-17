@@ -40,7 +40,15 @@
                 phone_number: '',
                 avatar: '',
                 email: '',
-                lang: ''
+                lang: '',
+                city: {
+                    name: '',
+                    id: null
+                },
+                country: {
+                    name: '',
+                    id: null
+                }
             };
             if (localStorageService.get('userData')) {
                 $rootScope.userData = localStorageService.get('userData');
@@ -101,41 +109,55 @@
                     }
                 }).then(
                     function success() {
-                        localStorageService.clearAll();
-                        $rootScope.notifications = [];
-                        $rootScope.userData = {
-                            first_name: '',
-                            second_name: '',
-                            phone_number: '',
-                            avatar: '',
-                            email: '',
-                            lang: ''
-                        };
-                        scope.methods.createUser({
-                            success: function (data) {
 
-                                window.waitingForUnlink = false;
-                                if (typeof params.success === 'function') {
-                                    params.success(data);
+                        if (params.target != 'xor'){
+
+                            localStorageService.clearAll();
+                            $rootScope.notifications = [];
+                            $rootScope.userData = {
+                                first_name: '',
+                                second_name: '',
+                                phone_number: '',
+                                avatar: '',
+                                email: '',
+                                lang: '',
+                                city: {
+                                    name: '',
+                                    id: null
+                                },
+                                country: {
+                                    name: '',
+                                    id: null
                                 }
-                            },
-                            error: function (error) {
+                            };
+                            scope.methods.createUser({
+                                success: function (data) {
 
-                                window.waitingForUnlink = false;
-                                if (typeof params.error === 'function') {
-                                    params.error(error);
+                                    window.waitingForUnlink = false;
+                                    if (typeof params.success === 'function') {
+                                        params.success(data);
+                                    }
+                                },
+                                error: function (error) {
+
+                                    window.waitingForUnlink = false;
+                                    if (typeof params.error === 'function') {
+                                        params.error(error);
+                                    }
                                 }
-                            }
-                        });
+                            });
 
+                        }
                     },
                     function error(error) {
+                        window.waitingForUnlink = false;
                         if (typeof params.error === 'function') {
                             params.error(error);
                         }
                     }
                 );
             } else {
+                window.waitingForUnlink = false;
                 console.log('В Ожидании на unlink');
             }
 
@@ -177,11 +199,30 @@
                 params.userData.winner_status = params.winner;
 
 
+            var oldLang = $mobileConfig.getConfig().headers.lang,
+                newLang = params.userData.lang;
+
+            if (newLang != oldLang){
+                $mobileConfig.setConfig({
+                    headers: {
+                        lang: newLang
+                    }
+                });
+            }
+
+
+
             $server.post({
                 url: 'user/data',
                 offlineData: params.offline_data,
                 no_warnings: params.no_warnings,
-                data: params.userData
+                preloader: params.preloader,
+                data: angular.merge(
+                    angular.copy(params.userData),
+                    angular.copy({
+                        city_id: params.userData.city ? params.userData.city.id : null,
+                        country_id: params.userData.country ? params.userData.country.id : null
+                    }))
             }).then(
                 function success(data) {
                     scope.methods.updateProfile(data.user);
@@ -192,6 +233,15 @@
                     }
                 },
                 function error(error) {
+
+                    if (newLang != oldLang){
+                        $mobileConfig.setConfig({
+                            headers: {
+                                lang: oldLang
+                            }
+                        });
+                    }
+
                     if (typeof params.error === 'function') {
                         params.error(error);
                     }

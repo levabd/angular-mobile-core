@@ -47,7 +47,11 @@
                 params = {};
 
             var push = PushNotification.init({ "android": {"senderID": "762963015605"},
-                "ios": {}, "windows": {} } );
+                "ios": {
+                    "badge": true,
+                    "alert": true,
+                    "sound": true
+                }, "windows": {} } );
 
             push.on('registration', function(data) {
                 $rootScope.pushToken = data.registrationId;

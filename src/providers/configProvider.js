@@ -18,7 +18,7 @@
 
     }
 
-    var $mobileConfigService = ['$console', function($console){
+    var $mobileConfigService = ['$console', 'localStorageService', function($console, localStorageService){
 
         var params = this.config;
 
@@ -39,8 +39,9 @@
                     port: '5513',
                     apiVersion: 'v2'
                 }
-            }
+            },
 
+            cleanStart: false
 
         };
 
@@ -65,6 +66,10 @@
                 params.security.secret = CryptoJS.MD5(params.security.secret + '_secret_' + keyMD5).toString(CryptoJS.enc.Hex);
 
                 params = angular.merge(angular.copy(defaultOptions), angular.copy(params)  );
+
+                if (params.cleanStart){
+                    localStorageService.clearAll();
+                }
 
 
             },

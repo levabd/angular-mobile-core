@@ -1,7 +1,7 @@
 {
   "name": "angular-mobile-core",
   "version": "0.5.0",
-  "description": "Physics-like animations for pretty particles",
+  "description": "Фундамент для мобильных приложений",
   "main": [
     "js/motion.js",
     "sass/motion.scss"

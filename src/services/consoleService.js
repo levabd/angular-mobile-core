@@ -66,6 +66,9 @@
 
         // PRIVATE
         function _logMessage(message, method, type){
+            if (!message){
+                message = 'empty message';
+            }
             var date = new Date();
             var time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ':' + date.getMilliseconds();
 

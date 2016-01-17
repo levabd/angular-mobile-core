@@ -1,6 +1,6 @@
 (function(){
 
     angular
-        .module('mobile-core', []);
+        .module('mobile-core', ['ngCookies', 'pascalprecht.translate', 'angularMoment', 'LocalStorageModule', 'ngCordova']);
 
 })();

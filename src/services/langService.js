@@ -174,7 +174,10 @@
         function getMessage(word){
             if (!word)
                 word = 'missing_word';
-            return scope.dictionary[word];
+            if (scope.dictionary[word])
+                return scope.dictionary[word];
+            else
+                return word
         }
 
         return scope.methods;
