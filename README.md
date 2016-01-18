@@ -15,7 +15,7 @@
 - **momentJS**
 
 ### Что также несет собой ядро
-Сервис для конфигурирования приложения - *$mobileConfig*.
+Сервис для конфигурирования приложения - ***$mobileConfig***.
 Пример использования:
 ```
      angular
@@ -92,9 +92,24 @@
         }
 ```
 
+Сервис для удобного логирования приложения - ***consoleService***.
+```
+    $console.instance('homeController'); // Поставит метку 'homeController' на каждое сообщение
+    $console.instance('newPageController'); // Поставит метку 'newPageController' на каждое сообщение
+    $console.backInstance(); // Вернет предыдущую метку 'homeController'.
+    $console.clearInstance(): // Удалит всю историю меток и установит метку 'AppController'
+    $console.info('Привет мир!'); // Красиво выведет сообщение 'Привет еще раз!' с пометкой INFO.
+    $console.log('Привет мир!'); // Alias метода $console.info.
+    $console.error('Нельзя делить на нуль'); // Выведет сообщение в консоль с пометкой ERROR.
+    
+    //Также можно добавлять информацию в заголовок сообщения, например в каком методе было вызвано данное сообщение:
+    $console.info('Привет мир!', 'initialization()');
+```
+
+При наличии плагина ***cordova-plugin-app-version*** пишет текущую версию в headers.
+При наличии плагина ***cordova-plugin-geolocation*** пишет текущую геолокацию в headers(longitude, latitude, accuracy)
 
 
-При наличии плагина cordova-plugin-app-version пишет текущую версию в headers
 
 ### Установка
 - Подключите файл build/angular-mobile-core.js перед вашими скриптами.

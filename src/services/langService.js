@@ -98,7 +98,7 @@
                         });
                     } else {
                         console.log('else set english licale' + params.lang + ' and array ' + JSON.stringify(app_locales));
-                        // else set english licale
+                        // else set english locale
                         scope.methods.setGlobal({
                             locale: 'en',
                             success: function () {
