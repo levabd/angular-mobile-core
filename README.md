@@ -14,6 +14,88 @@
 - **cryptoJs(md5)**
 - **momentJS**
 
+### Что также несет собой ядро
+Сервис для конфигурировния приложения - *$mobileConfig*.
+Пример использования:
+```
+     angular
+            .module('app')
+            .config($mobileConfigProvider);
+    
+        /////////////////////////////////////////
+    
+    
+        $mobileConfigProvider.$inject = ['$mobileConfigProvider'];
+        function $mobileConfigProvider($mobileConfigProvider){
+    
+            // Пишем в объект конфигурации.
+            $mobileConfigProvider.config = {
+            
+                // текущее окружение.
+                environment: 'production',
+    
+                // количество миллисекунд ожидания ответа от сервера.
+                connection_timeout: 20000,
+    
+                // запустит приложение с чистым local storage.
+                cleanStart: false,
+    
+                // в этом объекте нужно перечислить все окружения у вашего приложения.
+                environments: {
+                    
+                    // теперь будет доступно окружение со строкой 'development'
+                    development: {
+                        /* address, port и apiVersion необходимая информация для того, чтобы $server мог построить
+                           правильный URL к вашему серверу. URL строится по схеме: address:port/apiVersion/<ваш URL>
+                           например: http://192.168.1.2:8181/v1/users
+                        */
+                        address: 'http://192.168.1.2',
+                        port: '8181',
+                        apiVersion: 'v1'
+                    },
+                    
+                    // теперь будет доступно окружение со строкой 'review'
+                    review:{
+                        address: 'http://my-api.com',
+                        port: '80',
+                        apiVersion: 'v2'
+                    }
+    
+                },
+                
+                // Объект security, простой способ защиты сервера от потусторонних запросов.
+                security: {
+                
+                    // secret - строка известная вам и серверу
+                    secret: 'aMiSMUMvYmPGJz9r',
+                    
+                    /* uniqueKey - строка или число, которое будет различным на разных устройствах. Cервер должен знать
+                       что именно вы используете в качестве уникального ключа для того, чтобы сверить ваш секрет на 
+                       подлинность. В данном случае мы используем uuid устройства.
+                    */
+                    uniqueKey: device.uuid
+                    
+                    /* Метод шифрования(для сервера): MD5( security.secret + '_secret_' + MD5( security.uniqueKey ) ) */
+                },
+                
+                
+                // Объект headers запишет все свое содержимое в каждый запрос к серверу
+                headers: {
+                    deviceUuid: device.uuid,
+                    devicePlatform: device.platform,
+                    deviceVersion: device.version,
+                    deviceModel: device.model
+                }
+    
+            }
+    
+        }
+```
+
+
+
+При наличии плагина cordova-plugin-app-version пишет текущую версию в headers
+
 ### Установка
 - Подключите файл build/angular-mobile-core.js перед вашими скриптами.
 - Затем подключите модуль в вашем приложении, примерно как показано ниже:
