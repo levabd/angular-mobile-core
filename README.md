@@ -98,7 +98,7 @@
     $console.instance('newPageController'); // Поставит метку 'newPageController' на каждое сообщение
     $console.backInstance(); // Вернет предыдущую метку 'homeController'.
     $console.clearInstance(): // Удалит всю историю меток и установит метку 'AppController'
-    $console.info('Привет мир!'); // Красиво выведет сообщение 'Привет еще раз!' с пометкой INFO.
+    $console.info('Привет мир!'); // Красиво выведет сообщение 'Привет мир!' с пометкой INFO.
     $console.log('Привет мир!'); // Alias метода $console.info.
     $console.error('Нельзя делить на нуль'); // Выведет сообщение в консоль с пометкой ERROR.
     
