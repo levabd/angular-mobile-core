@@ -92,7 +92,7 @@
         }
 ```
 
-Сервис для удобного логирования приложения - ***consoleService***.
+Сервис для удобного логирования приложения - ***$console***.
 ```
     $console.instance('homeController'); // Поставит метку 'homeController' на каждое сообщение
     $console.instance('newPageController'); // Поставит метку 'newPageController' на каждое сообщение
