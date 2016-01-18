@@ -107,6 +107,7 @@
 ```
 
 При наличии плагина ***cordova-plugin-app-version*** пишет текущую версию в headers.
+
 При наличии плагина ***cordova-plugin-geolocation*** пишет текущую геолокацию в headers(longitude, latitude, accuracy)
 
 
