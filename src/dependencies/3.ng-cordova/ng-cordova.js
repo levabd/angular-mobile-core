@@ -24,10 +24,18 @@ angular.module('ngCordova.plugins.appVersion', [])
 
     return {
       getAppVersion: function () {
+
         var q = $q.defer();
-        cordova.getAppVersion(function (version) {
-          q.resolve(version);
-        });
+
+        if (!cordova.getAppVersion){
+          q.resolve(null);
+          return q.promise;
+        }
+
+
+          cordova.getAppVersion(function (version) {
+            q.resolve(version);
+          });
 
         return q.promise;
       }

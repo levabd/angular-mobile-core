@@ -13,6 +13,8 @@
 
 
         $cordovaAppVersion.getAppVersion().then(function (version) {
+            if (!version)
+                return null;
 
             $mobileConfig.setConfig({
                 headers: {
