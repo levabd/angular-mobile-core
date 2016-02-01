@@ -85,7 +85,37 @@
                     devicePlatform: device.platform,
                     deviceVersion: device.version,
                     deviceModel: device.model
-                }
+                },
+                
+                // Объект push содержит настройки push уведомлений
+                push: {
+                
+                        enabled: true,  // вкл/выкл push уведомлений
+        
+                        // Объект конфигурации, если не понятно, можно почитать в документации push plugin-а
+                        config: {
+                            android: {
+                                senderID: 762963015605
+                            },
+                            wp8: {
+                                channelName: device.uuid
+                            },
+                            ios:{
+                                "badge": true,
+                                "alert": true,
+                                "sound": true
+                            }
+                        },
+                        
+                        // Функция обработчик пуш уведомлений
+                        messageProvider: function(notification){
+                            // объект notification содержит информацию о пуш уведомлении 
+                            
+                            // Вывести в консоль сообщение
+                            console.log(notification.message);
+                            
+                        }
+                    }
     
             }
     

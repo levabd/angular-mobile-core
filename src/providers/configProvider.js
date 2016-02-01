@@ -41,7 +41,28 @@
                 }
             },
 
-            cleanStart: false
+            cleanStart: false,
+
+            push: {
+
+                enabled: false,
+
+                config: {
+                    android: {
+                        senderID: null
+                    },
+                    wp8: {
+                        channelName: null
+                    },
+                    ios:{
+                        "badge": null,
+                        "alert": null,
+                        "sound": null
+                    }
+                },
+
+                messageProvider: null // must be function
+            }
 
         };
 
